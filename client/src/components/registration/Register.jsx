@@ -20,7 +20,7 @@ export default function Register() {
     const [verify, setVerify] = useState('');
     const [userCreated, setUserCreated] = useState(0);
 
-    const confirmationCode = useState(Math.floor(Math.random()*10000).toString());
+    const [confirmationCode, setConfirm] = useState(Math.floor(Math.random()*10000).toString());
 
     const handleOnChange = e => {
         const { name, value } = e.target;
