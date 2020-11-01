@@ -1,20 +1,6 @@
-// const server = require('express').Router();
-// require('dotenv').config();
-// const {apiKey, DOMAIN_MAIL} = process.env;
-const nodeMailer = require('nodemailer');
-const mailGun = require('nodemailer-mailgun-transport');
-
-const apiKey = "5101a993ea89f8a727220662d84437e1-9b1bf5d3-16f8019e";
-const domain = "sandbox527c6302f6d34714bb76076aff61a0e5.mailgun.org";
-
-const auth = {
-    auth: {
-        api_key: apiKey, 
-        domain: domain
-    }
-};
-
-const transporter = nodeMailer.createTransport(mailGun(auth));
+// ==================IMPORTS================================
+const {apiKey, domain} = process.env;
+const mailgun = require('mailgun-js')({ apiKey, domain });
 
 function mailCreator (to, subject, text){
 
@@ -23,15 +9,12 @@ function mailCreator (to, subject, text){
         to,
         subject,
         text,
+        html:"<html><body><h2>Un email </h2><p>un texto de email</p><button>Verificar</button></body></html>"
     };
 
-    transporter.sendMail(mailOptions, (err, data)=>{
-        if (err) {
-            console.log("Error => ",err)
-        } else {
-            console.log("Data => ",data)
-        }
-    })
+    mailgun.messages().send(mailOptions, function (error, body) {
+        console.log(body);
+      });
 }
 
 module.exports = mailCreator;
